@@ -27,7 +27,7 @@ def close_db(e=None):
 
 def init_db():
     db = get_db()
-    with current_app.open_resourse('schema.sql') as f:
+    with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
 
@@ -37,3 +37,11 @@ def init_db_command():
     """Clear the existing data and create new tables."""
     init_db()
     click.echo('Initialized the database.')
+
+
+def init_app(app):
+    #  tells Flask to call that function when cleaning up after returning the response
+    app.teardown_appcontext(close_db)
+    # adds a new command that can be called with the flask command
+    app.cli.add_command(init_db_command)
+

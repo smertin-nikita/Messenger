@@ -32,6 +32,9 @@ def create_app(test_config=None):
     def index():
         return "Messenger<br><a href='/status'>Status</a>"
 
+    from . import db
+    db.init_app(app)
+
     return app
 
 #
